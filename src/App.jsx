@@ -4,6 +4,7 @@ import Loader from './components/Loader'
 import Nav, { SideMenu } from './components/Nav'
 import Hero from './components/Hero'
 import Servimos from './components/Servimos'
+import Inauguracao from './components/Inauguracao'
 import Casa from './components/Casa'
 import Ambientes from './components/Ambientes'
 import Trabalho from './components/Trabalho'
@@ -37,6 +38,7 @@ export default function App() {
         <Casa />
         <Ambientes />
         <Trabalho />
+        <Inauguracao onReserve={openReserve} />
         <Servimos onReserve={openReserve} />
         <Mapa />
         <Faq />
