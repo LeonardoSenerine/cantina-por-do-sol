@@ -1,17 +1,8 @@
 import { useRef } from 'react'
 import { decodeOnce, useRotation } from '../lib/useRotation'
 
-// mosaico de fotos ao fundo; uma moldura por vez troca de foto com um esmaecer suave.
-// As fotos do lugar vêm primeiro, para dominarem o mosaico logo que ele aparece.
-const POOL = [
-  'fachada', 'salao-mesas', 'sala-pedra', 'salao-luzes', 'por-do-sol-salao', 'salao-janelas',
-  'fachada-2', 'salao-verde', 'salao-noite', 'salao-logo', 'jardim', 'por-do-sol-chimarrao',
-  'salames', 'vista-tabua', 'buffet-cuca', 'tabua', 'pao', 'buffet-geleia', 'buffet-palmas', 'buffet-empadas',
-]
-// 6×3 no computador; no celular aparecem só as 12 primeiras molduras (3×4)
-const COUNT = 18
-const MOBILE = 12
-const EVERY = 900
+// Mosaico de fotos ao fundo com o conteúdo (children) centralizado por cima.
+// Uma moldura por vez troca de foto com um esmaecer suave, só com o mosaico na tela.
 const tileSrc = (n) => `./img/${n}-800.webp`
 const preload = (n) => decodeOnce(tileSrc(n), (img) => { img.src = tileSrc(n) })
 
@@ -27,15 +18,15 @@ function Tile({ name, prev, hideOnMobile }) {
   )
 }
 
-// mosaico com o conteúdo (children) centralizado por cima
-export default function Carrossel({ children }) {
+// `grid` define colunas e linhas do mosaico; no celular aparecem só as `mobile` primeiras molduras
+export default function Mosaico({ pool, count, mobile = count, grid, every = 900, children }) {
   const root = useRef(null)
-  const tiles = useRotation(root, { pool: POOL, count: COUNT, every: EVERY, preload })
+  const tiles = useRotation(root, { pool, count, every, preload })
 
   return (
     <div ref={root} className="relative overflow-hidden bg-basalto text-cal">
-      <div className="absolute inset-0 grid grid-cols-3 grid-rows-4 gap-1 md:grid-cols-6 md:grid-rows-3" aria-hidden="true">
-        {tiles.map((t, i) => <Tile key={i} name={t.cur} prev={t.prev} hideOnMobile={i >= MOBILE} />)}
+      <div className={`absolute inset-0 grid gap-1 ${grid}`} aria-hidden="true">
+        {tiles.map((t, i) => <Tile key={i} name={t.cur} prev={t.prev} hideOnMobile={i >= mobile} />)}
       </div>
       {/* escurece o mosaico para o texto ler bem, mais forte no centro */}
       <div className="absolute inset-0 bg-basalto/60" aria-hidden="true" />

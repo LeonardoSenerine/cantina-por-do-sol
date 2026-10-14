@@ -9,6 +9,7 @@ const NAV = [
   ['servimos', 'O que servimos'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
+  ['trabalho', 'Nosso trabalho'],
   ['equipe', 'Equipe'],
   ['onde', 'Como chegar'],
   ['duvidas', 'Dúvidas'],

@@ -1,6 +1,3 @@
-import { SOCIAL } from '../data/site'
-import { Arrow } from './Logo'
-import Carrossel from './Carrossel'
 
 export default function Casa() {
   return (
@@ -32,24 +29,6 @@ export default function Casa() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* ambientes: o texto por cima do mosaico de fotos */}
-      <section id="ambientes" aria-label="Ambientes">
-        <Carrossel>
-          <div className="mx-auto max-w-[820px] text-center">
-            <p className="text-[15px] font-medium text-ouro">Ambientes</p>
-            <p data-split className="serif mt-6 text-[clamp(26px,3vw,42px)] leading-[1.25]">
-              Salão de madeira com lâmpadas de filamento, uma sala de pedra com sofá e cristaleira, e o andar de cima com janelas de ponta a ponta. Pode chegar com calma.
-            </p>
-            <div data-reveal className="mt-10">
-              <a href={SOCIAL.instagram} target="_blank" rel="noopener" className="inline-flex items-center gap-2 text-[15px]">
-                <span className="ulink">Mais fotos no Instagram</span>
-                <Arrow />
-              </a>
-            </div>
-          </div>
-        </Carrossel>
       </section>
     </>
   )
