@@ -7,7 +7,6 @@ import Servimos from './components/Servimos'
 import Casa from './components/Casa'
 import Ambientes from './components/Ambientes'
 import Trabalho from './components/Trabalho'
-import Equipe from './components/Equipe'
 import Mapa from './components/Mapa'
 import Faq from './components/Faq'
 import Footer from './components/Footer'
@@ -35,11 +34,10 @@ export default function App() {
       <SideMenu open={menuOpen} onClose={closeMenu} onReserve={openReserve} />
       <main>
         <Hero onReserve={openReserve} />
-        <Servimos onReserve={openReserve} />
         <Casa />
         <Ambientes />
         <Trabalho />
-        <Equipe />
+        <Servimos onReserve={openReserve} />
         <Mapa />
         <Faq />
       </main>

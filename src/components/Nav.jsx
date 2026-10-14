@@ -6,13 +6,12 @@ import { HOURS, PHONE_LABEL, ADDRESS, SOCIAL } from '../data/site'
 
 const LINKS = [
   ['inicio', 'Início'],
-  ['cafe', 'Café e almoço'],
-  ['pizza', 'Rodízio de pizzas'],
-  ['por-do-sol', 'Pôr do sol'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
   ['trabalho', 'Nosso trabalho'],
-  ['equipe', 'Equipe'],
+  ['cafe', 'Café e almoço'],
+  ['pizza', 'Rodízio de pizzas'],
+  ['por-do-sol', 'Pôr do sol'],
   ['onde', 'Como chegar'],
   ['duvidas', 'Dúvidas'],
   ['contato', 'Contato'],

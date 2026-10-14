@@ -7,13 +7,12 @@ const waLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Olá! Vim p
 
 const NAV = [
   ['inicio', 'Início'],
-  ['cafe', 'Café e almoço'],
-  ['pizza', 'Rodízio de pizzas'],
-  ['por-do-sol', 'Pôr do sol'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
   ['trabalho', 'Nosso trabalho'],
-  ['equipe', 'Equipe'],
+  ['cafe', 'Café e almoço'],
+  ['pizza', 'Rodízio de pizzas'],
+  ['por-do-sol', 'Pôr do sol'],
   ['onde', 'Como chegar'],
   ['duvidas', 'Dúvidas'],
 ]
