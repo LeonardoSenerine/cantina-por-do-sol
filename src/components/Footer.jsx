@@ -70,7 +70,7 @@ export default function Footer({ onReserve }) {
 
           <div className="mt-14 flex flex-col justify-between gap-2 border-t border-cal/15 pt-6 text-[13px] text-cal/45 sm:flex-row">
             <p>© {new Date().getFullYear()} Cantina Pôr do Sol</p>
-            <p>Site por Senerine.dev</p>
+            <p>Site por <a href="https://senerinedev.vercel.app/pt" target="_blank" rel="noopener" className="ulink transition-colors hover:text-cal">Senerine.dev</a></p>
           </div>
         </div>
         <div data-footer-parallax-dark className="pointer-events-none absolute inset-0 bg-black opacity-0" />
