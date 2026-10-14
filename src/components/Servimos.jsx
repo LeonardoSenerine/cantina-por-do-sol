@@ -1,4 +1,4 @@
-import { EXPERIENCES, srcSet } from '../data/site'
+import { EXPERIENCES, PRICE, srcSet } from '../data/site'
 import { Arrow } from './Logo'
 
 export default function Servimos({ onReserve }) {
@@ -44,19 +44,29 @@ export default function Servimos({ onReserve }) {
                   />
                 )}
               </button>
-              <div className="mt-6 flex items-baseline justify-between gap-4 border-b border-linha pb-4">
-                <h3 className="text-[28px] md:text-[30px]">{exp.name}</h3>
-                <p className="shrink-0 text-right text-[14px] text-pedra">{exp.days}<br />{exp.hours}</p>
-              </div>
+              <h3 className="mt-6 text-[28px] md:text-[30px]">{exp.name}</h3>
+              {exp.tag && <p className="mt-1 text-[15px] text-pinus">{exp.tag}</p>}
+              {/* o essencial para decidir e reservar, legível no celular */}
+              <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 border-y border-linha py-4 text-[16px]">
+                <dt className="text-pedra">Quando</dt>
+                <dd>{exp.days}</dd>
+                <dt className="text-pedra">Horário</dt>
+                <dd>{exp.hours}</dd>
+                {exp.weekdays && (
+                  <>
+                    <dt className="text-pedra">Valor</dt>
+                    <dd>A partir de {PRICE.from} por pessoa<span className="block text-[14px] text-pedra">{PRICE.kids}</span></dd>
+                  </>
+                )}
+              </dl>
               <p className="mt-4 max-w-[400px] text-pedra">{exp.text}</p>
-              {exp.tag && <p className="sr-only">{exp.tag}</p>}
+              {exp.notes && <p className="mt-3 text-[14px] text-pedra/80">{exp.notes.join(' · ')}</p>}
               <button
                 type="button"
                 onClick={() => onReserve(exp.weekdays ? exp.id : undefined)}
-                className="mt-5 inline-flex items-center gap-2 self-start text-[15px] font-medium"
+                className="btn btn-linha mt-6 self-start"
               >
-                <span className="ulink">{exp.weekdays ? 'Reservar' : 'Reservar uma mesa'}</span>
-                <Arrow />
+                {exp.weekdays ? `Reservar o ${exp.name.toLowerCase()}` : 'Reservar uma mesa'}
               </button>
             </article>
           ))}

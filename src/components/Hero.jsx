@@ -13,7 +13,7 @@ export default function Hero({ onReserve }) {
         <div className="gutter relative z-10 flex flex-col justify-between pb-12 pt-14 max-md:min-h-[calc(100svh-76px)] max-md:justify-end max-md:pt-40 max-md:text-cal md:pb-14 md:pt-20 md:pr-12 lg:pr-20">
           <div className="max-w-[620px]">
             <p data-hero-fade className="serif text-[17px] text-pedra max-md:text-cal/85 md:text-[18px]">Lajeado Grande, Santa Catarina</p>
-            <h1 data-hero-title className="mt-5 text-[clamp(40px,5.2vw,80px)]">
+            <h1 data-hero-title className="mt-5 text-[clamp(40px,4.8vw,76px)]">
               Onde o sabor encontra uma vista inesquecível
             </h1>
             <p data-hero-fade className="mt-7 max-w-[500px] text-[18px] text-pedra max-md:text-cal/85">

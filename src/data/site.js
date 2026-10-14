@@ -63,7 +63,7 @@ export const EXPERIENCES = [
     hours: 'chegue cedo',
     text: 'Do salão de cima, o horizonte se contempla em sua plenitude. Um cenário espetacular que inspira brindes, registros marcantes e momentos especiais em boa companhia.',
     notes: ['janela para o vale', 'hora dourada'],
-    media: { type: 'video', src: './video/salao-de-cima.mp4', poster: './video/salao-de-cima.jpg', alt: 'O salão de cima, com mesas postas e janelas abertas para o vale' },
+    media: { type: 'image', src: './img/por-do-sol-salao.webp', alt: 'O sol se pondo no horizonte ao lado do salão de madeira da cantina, visto entre folhagens' },
   },
 ]
 

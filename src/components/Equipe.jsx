@@ -56,10 +56,13 @@ export default function Equipe() {
   const foto = (k) => <Foto name={tiles[k].cur} prev={tiles[k].prev} slot={SLOTS[k]} />
 
   return (
-    <section id="equipe" className="gutter py-24 md:py-36">
+    <section id="equipe" className="gutter pb-16 pt-24 md:pb-24 md:pt-32">
       <div className="mx-auto max-w-[1320px]">
         <div className="grid gap-5 md:grid-cols-12">
-          <p className="text-[15px] font-medium md:col-span-4">Nossa equipe</p>
+          <div className="md:col-span-4">
+            <p className="text-[15px] font-medium">Nossa equipe</p>
+            <p className="serif mt-3 text-[22px] text-pinus">Por trás de cada mesa</p>
+          </div>
           <div className="md:col-span-8">
             <h2 data-split className="text-[clamp(32px,4.2vw,58px)]">Sempre preparada para atender</h2>
             <p data-reveal className="mt-6 max-w-[560px] text-[18px] text-pedra">
