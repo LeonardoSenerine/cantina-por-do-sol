@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, useGSAP, getLenis, prefersReduced } from '../lib/motion'
-import { EXPERIENCES, PRICE, WHATSAPP } from '../data/site'
+import { EXPERIENCES, KIDS, PIZZA, WHATSAPP, priceOn } from '../data/site'
 import { Arrow } from './Logo'
 
-const BOOKABLE = EXPERIENCES.filter((e) => e.weekdays)
+const BOOKABLE = EXPERIENCES
 const DAY_NAMES = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado']
 
 const todayISO = () => {
@@ -23,6 +23,12 @@ const nextDateFor = (exp) => {
     d.setDate(d.getDate() + 1)
   }
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+// valor por pessoa: o do dia escolhido ou, sem data válida, a lista de valores
+const priceText = (exp, date) => {
+  const p = date && priceOn(exp, parseISO(date).getDay())
+  if (p) return `${p.price} por pessoa ${p.on}`
+  return `${exp.prices.map((x) => `${x.price} ${x.on}`).join(' e ')}, por pessoa`
 }
 const prettyDate = (s) => {
   const d = parseISO(s)
@@ -49,9 +55,9 @@ export default function ReserveDrawer({ state, onClose }) {
   const tl = useRef(null)
   const lastFocus = useRef(null)
 
-  const initialExp = BOOKABLE[1]
+  const initialExp = PIZZA
   const [form, setForm] = useState({
-    exp: initialExp.id, date: nextDateFor(initialExp), time: initialExp.slots[2],
+    exp: initialExp.id, date: nextDateFor(initialExp), time: initialExp.slot,
     adults: 2, kids69: 0, kids05: 0, name: '', notes: '',
   })
   const [errors, setErrors] = useState({})
@@ -64,7 +70,7 @@ export default function ReserveDrawer({ state, onClose }) {
   }
   const chooseExp = (id) => {
     const e = BOOKABLE.find((x) => x.id === id)
-    setForm((f) => ({ ...f, exp: id, date: nextDateFor(e), time: e.slots[id === 'pizza' ? 2 : 1] }))
+    setForm((f) => ({ ...f, exp: id, date: nextDateFor(e), time: e.slot }))
     setErrors({})
   }
 
@@ -178,12 +184,15 @@ export default function ReserveDrawer({ state, onClose }) {
 
             <fieldset data-drawer-item>
               <legend className="mb-2 text-[13px] font-medium text-pedra">Experiência</legend>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid gap-2">
                 {BOOKABLE.map((e, i) => (
-                  <label key={e.id} className={`cursor-pointer border p-4 transition-colors ${form.exp === e.id ? 'border-basalto bg-basalto text-cal' : 'border-[#D9D0C2] bg-cal hover:border-basalto/50'}`}>
+                  <label key={e.id} className={`block cursor-pointer border px-4 py-3.5 transition-colors ${form.exp === e.id ? 'border-basalto bg-basalto text-cal' : 'border-[#D9D0C2] bg-cal hover:border-basalto/50'}`}>
                     <input type="radio" name="exp" value={e.id} checked={form.exp === e.id} onChange={() => chooseExp(e.id)} className="sr-only" data-autofocus={i === 0 ? true : undefined} />
                     <span className="serif block text-[21px] leading-tight">{e.name}</span>
                     <span className={`mt-1 block text-[13px] ${form.exp === e.id ? 'text-cal/70' : 'text-pedra'}`}>{e.days} · {e.hours}</span>
+                    <span className="mt-1 block text-[13px] tabular-nums">
+                      {e.prices.length > 1 ? e.prices.map((p) => `${p.label} ${p.price}`).join(' · ') : e.prices[0].price}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -210,7 +219,7 @@ export default function ReserveDrawer({ state, onClose }) {
               {num('kids69', 0, 20)}
               {num('kids05', 0, 20)}
             </div>
-            <p className="-mt-3 text-[13px] text-pedra" data-drawer-item>A partir de {PRICE.from} por pessoa. {PRICE.kids}.</p>
+            <p className="-mt-3 text-[13px] text-pedra" data-drawer-item>{priceText(exp, form.date)}. {KIDS}.</p>
 
             <div className="field" data-drawer-item>
               <label htmlFor="r-name">Nome</label>

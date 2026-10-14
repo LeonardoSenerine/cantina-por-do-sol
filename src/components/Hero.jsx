@@ -1,9 +1,7 @@
 import { Arrow } from './Logo'
 import Roll from './Roll'
 import { scrollToId } from '../lib/motion'
-import { EXPERIENCES } from '../data/site'
-
-const [cafe, pizza] = EXPERIENCES
+import { HOURS } from '../data/site'
 
 export default function Hero({ onReserve }) {
   return (
@@ -32,14 +30,12 @@ export default function Hero({ onReserve }) {
           </div>
 
           <dl data-hero-fade className="mt-14 grid max-w-[620px] grid-cols-2 gap-6 border-t border-linha pt-6 text-[15px] max-md:mt-10 max-md:border-cal/25">
-            <div>
-              <dt className="text-pedra max-md:text-cal/70">{pizza.name}</dt>
-              <dd className="mt-1">{pizza.days}, {pizza.hours}</dd>
-            </div>
-            <div>
-              <dt className="text-pedra max-md:text-cal/70">{cafe.name}</dt>
-              <dd className="mt-1">{cafe.days}, {cafe.hours}</dd>
-            </div>
+            {HOURS.map((h) => (
+              <div key={h.label}>
+                <dt className="text-pedra max-md:text-cal/70">{h.label}</dt>
+                <dd className="mt-1">{h.when}</dd>
+              </div>
+            ))}
           </dl>
         </div>
 

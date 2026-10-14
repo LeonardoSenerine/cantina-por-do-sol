@@ -48,6 +48,7 @@ describe('API (e2e)', () => {
       .expect(200);
     expect(res.body.map((e: { id: string }) => e.id)).toEqual([
       'cafe',
+      'almoco',
       'pizza',
     ]);
   });

@@ -11,33 +11,40 @@ export interface Experience {
   slots: string[];
 }
 
-export const EXPERIENCE_IDS = ['cafe', 'pizza'] as const;
+export const EXPERIENCE_IDS = ['cafe', 'almoco', 'pizza'] as const;
 export type ExperienceId = (typeof EXPERIENCE_IDS)[number];
 
 export const EXPERIENCES: Experience[] = [
   {
     id: 'cafe',
     name: 'Café colonial',
-    days: 'Domingos',
-    hours: '8h às 18h',
+    days: 'Aos domingos',
+    hours: '8h às 10h30 e 15h às 18h',
     weekdays: [0],
     slots: [
       '08:00',
+      '08:30',
       '09:00',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
+      '09:30',
       '15:00',
+      '15:30',
       '16:00',
+      '16:30',
       '17:00',
     ],
   },
   {
+    id: 'almoco',
+    name: 'Almoço',
+    days: 'Aos domingos',
+    hours: '11h às 14h30',
+    weekdays: [0],
+    slots: ['11:00', '11:30', '12:00', '12:30', '13:00', '13:30'],
+  },
+  {
     id: 'pizza',
     name: 'Rodízio de pizzas',
-    days: 'Quinta a sábado',
+    days: 'De quinta a sábado',
     hours: '18h30 à meia-noite',
     weekdays: [4, 5, 6],
     slots: [

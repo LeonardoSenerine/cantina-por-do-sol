@@ -119,5 +119,21 @@ describe('ReservationsService', () => {
       NOW,
     );
     expect(reservation.experience).toBe('cafe');
+    expect(
+      fieldOf(() =>
+        service.create(
+          pizza({ experience: 'cafe', date: '2026-10-18', time: '12:00' }),
+          NOW,
+        ),
+      ),
+    ).toBe('time'); // meio-dia é hora do almoço
+  });
+
+  it('almoço aos domingos', () => {
+    const { reservation } = service.create(
+      pizza({ experience: 'almoco', date: '2026-10-18', time: '12:00' }),
+      NOW,
+    );
+    expect(reservation.experience).toBe('almoco');
   });
 });

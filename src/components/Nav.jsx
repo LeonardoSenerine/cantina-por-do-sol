@@ -2,11 +2,13 @@ import { useEffect, useRef } from 'react'
 import { Wordmark, Arrow } from './Logo'
 import Roll from './Roll'
 import { gsap, useGSAP, scrollToId, getLenis, prefersReduced } from '../lib/motion'
-import { EXPERIENCES, PHONE_LABEL, ADDRESS, SOCIAL } from '../data/site'
+import { HOURS, PHONE_LABEL, ADDRESS, SOCIAL } from '../data/site'
 
 const LINKS = [
   ['inicio', 'Início'],
-  ['servimos', 'O que servimos'],
+  ['cafe', 'Café e almoço'],
+  ['pizza', 'Rodízio de pizzas'],
+  ['por-do-sol', 'Pôr do sol'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
   ['trabalho', 'Nosso trabalho'],
@@ -55,7 +57,6 @@ export default function Nav({ onReserve, menuOpen, setMenuOpen }) {
 export function SideMenu({ open, onClose, onReserve }) {
   const root = useRef(null)
   const tl = useRef(null)
-  const [cafe, pizza] = EXPERIENCES
 
   useGSAP(
     () => {
@@ -127,8 +128,9 @@ export function SideMenu({ open, onClose, onReserve }) {
         <div className="mt-auto grid grid-cols-1 gap-6 border-t border-cal/15 pt-8 text-[15px] text-cal/70 sm:grid-cols-2">
           <div data-menu-fade>
             <p className="mb-2 text-cal">Horários</p>
-            <p>{pizza.name}: {pizza.days.toLowerCase()}, {pizza.hours}</p>
-            <p className="mt-2">{cafe.name}: {cafe.days.toLowerCase()}, {cafe.hours}</p>
+            {HOURS.map((h, i) => (
+              <p key={h.label} className={i ? 'mt-2' : undefined}>{h.label}: {h.when.toLowerCase()}</p>
+            ))}
           </div>
           <div data-menu-fade>
             <p className="mb-2 text-cal">Contato</p>

@@ -1,4 +1,4 @@
-import { ADDRESS, EXPERIENCES, PHONE_LABEL, SOCIAL, WHATSAPP } from '../data/site'
+import { ADDRESS, PHONE_LABEL, PIZZA, SOCIAL, SUNDAY, WHATSAPP } from '../data/site'
 import { Arrow, LogoMark } from './Logo'
 import Roll from './Roll'
 import { scrollToId } from '../lib/motion'
@@ -7,7 +7,9 @@ const waLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Olá! Vim p
 
 const NAV = [
   ['inicio', 'Início'],
-  ['servimos', 'O que servimos'],
+  ['cafe', 'Café e almoço'],
+  ['pizza', 'Rodízio de pizzas'],
+  ['por-do-sol', 'Pôr do sol'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
   ['trabalho', 'Nosso trabalho'],
@@ -17,7 +19,6 @@ const NAV = [
 ]
 
 export default function Footer({ onReserve }) {
-  const [cafe, pizza] = EXPERIENCES
   const h = 'mb-4 text-[14px] font-medium text-cal'
   return (
     <footer id="contato" data-footer-parallax className="relative overflow-hidden">
@@ -36,8 +37,9 @@ export default function Footer({ onReserve }) {
           <div className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-cal/15 pt-12 text-[15px] md:grid-cols-12">
             <div className="md:col-span-3">
               <p className={h}>Horários</p>
-              <p>{pizza.name}<br />{pizza.days}, {pizza.hours}</p>
-              <p className="mt-3">{cafe.name}<br />{cafe.days}, {cafe.hours}</p>
+              <p>{PIZZA.name}<br />{PIZZA.days}, {PIZZA.hours}</p>
+              <p className="mt-3">Domingos</p>
+              {SUNDAY.map((m) => <p key={m.name}>{m.exp.name}, {m.from} às {m.to}</p>)}
             </div>
             <div className="md:col-span-3">
               <p className={h}>Contato</p>
