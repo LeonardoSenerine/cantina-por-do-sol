@@ -4,7 +4,7 @@ import { gsap, ScrollTrigger, SplitText, useGSAP, initLenis, getLenis, prefersRe
   Animações globais, no espírito do boilerplate da Osmo usado no Studenterkilden:
   marque o HTML com data-atributos e este hook anima tudo.
 
-  [data-load-*]          loader: o sol do logo nasce atrás das montanhas, a barra enche e a cortina sobe
+  [data-load-*]          loader: o logo sobe, o sol nasce atrás do telhado, a barra enche e a cortina sobe
   [data-hero-*]          entrada do topo logo depois do loader
   [data-split]           texto revelado linha por linha ao entrar na tela
   [data-reveal]          filhos sobem e aparecem em sequência (100ms entre eles, 2em)
@@ -42,35 +42,45 @@ export function useSiteAnimations(scope) {
         gsap.set(q('[data-hero-img]'), { clipPath: 'inset(100% 0% 0% 0%)' })
         gsap.set(q('[data-hero-img] img, [data-hero-img] video'), { scale: 1.25 })
 
-        // ---------- loader: o sol do logo nasce atrás do telhado e das montanhas
+        // ---------- loader: o logo sobe inteiro de baixo para cima (como uma cortina), o sol
+        // nasce um pouco depois atrás do telhado, o nome aparece e a barra enche. Na volta à
+        // página na mesma sessão, tudo corre quase duas vezes mais rápido.
         const logo = wrap.querySelector('[data-load-logo]')
         const sun = logo.querySelectorAll('[data-logo-sun]')
-        const land = logo.querySelectorAll('[data-logo-land]')
         const text = logo.querySelectorAll('[data-logo-text]')
         const bar = wrap.querySelector('[data-load-progress]')
         const box = wrap.querySelector('[data-load-container]')
         const bg = wrap.querySelector('[data-load-bg]')
-        gsap.set(sun, { y: 160, autoAlpha: 0 })
-        gsap.set(land, { autoAlpha: 0 })
-        gsap.set(text, { autoAlpha: 0, y: 40 })
+        gsap.set(logo, { clipPath: 'inset(100% 0% 0% 0%)' })
+        gsap.set(sun, { yPercent: 35 })
+        gsap.set(text, { autoAlpha: 0, yPercent: 40 })
+        gsap.set(bar, { scaleX: 0 })
+
+        let seen = false
+        try {
+          seen = sessionStorage.getItem('cantina-intro') === '1'
+          sessionStorage.setItem('cantina-intro', '1')
+        } catch {
+          // sem sessionStorage (aba anônima bloqueada): mostra a entrada inteira
+        }
 
         gsap
-          .timeline({ defaults: { ease: 'loader' } })
-          .to(bar, { scaleX: 1, duration: 2.4 })
-          .to(land, { autoAlpha: 1, duration: 0.8, ease: 'power2.out', stagger: 0.02 }, '<')
-          .to(sun, { y: 0, autoAlpha: 1, duration: 1.7, ease: 'osmo' }, '<0.3')
-          .to(text, { autoAlpha: 1, y: 0, duration: 1, ease: 'osmo', stagger: 0.03 }, '<0.5')
-          .to(box, { autoAlpha: 0, duration: 0.5 })
-          .to(bar, { scaleX: 0, transformOrigin: 'right center', duration: 0.5 }, '<')
-          .add('hide', '<')
-          .to(bg, { yPercent: -101, duration: 1.1 }, 'hide')
+          .timeline({ defaults: { ease: 'osmo' } })
+          .timeScale(seen ? 1.8 : 1)
+          .to(logo, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1 }, 0)
+          .to(sun, { yPercent: 0, duration: 1.4 }, 0.1)
+          .to(text, { autoAlpha: 1, yPercent: 0, duration: 0.8, stagger: 0.015 }, 0.45)
+          .to(bar, { scaleX: 1, duration: 1.5, ease: 'loader' }, 0)
+          .add('hide', 1.55)
+          .to(box, { y: -24, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, 'hide')
+          .to(bg, { yPercent: -101, duration: 1 }, 'hide+=0.15')
           .set(wrap, { display: 'none' })
-          .add(() => lenis?.start(), 'hide+=0.6')
+          .add(() => lenis?.start(), 'hide+=0.5')
           // ---------- topo entra junto com a cortina
-          .to(split.lines, { yPercent: 0, duration: 1.1, ease: 'osmo', stagger: 0.09 }, 'hide+=0.35')
-          .to(q('[data-hero-fade]'), { autoAlpha: 1, y: 0, duration: 0.9, ease: 'osmo', stagger: 0.08 }, 'hide+=0.55')
-          .to(q('[data-hero-img]'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'osmo', stagger: 0.1 }, 'hide+=0.7')
-          .to(q('[data-hero-img] img, [data-hero-img] video'), { scale: 1, duration: 1.8, ease: 'osmo', stagger: 0.1 }, 'hide+=0.7')
+          .to(split.lines, { yPercent: 0, duration: 1.1, stagger: 0.08 }, 'hide+=0.4')
+          .to(q('[data-hero-fade]'), { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.07 }, 'hide+=0.6')
+          .to(q('[data-hero-img]'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3 }, 'hide+=0.5')
+          .to(q('[data-hero-img] img, [data-hero-img] video'), { scale: 1, duration: 1.7 }, 'hide+=0.5')
 
         // ---------- textos linha a linha
         q('[data-split]').forEach((el) => {

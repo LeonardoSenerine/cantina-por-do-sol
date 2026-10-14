@@ -19,6 +19,21 @@ npm run build    # gera dist/ para publicar (Vercel, Netlify, Hostinger…)
 
 Direção visual: "Madeira e pedra" — Young Serif nos títulos, Hanken Grotesk no texto, cantos retos, botão dourado, estrutura inspirada no studenterkilden.dk.
 
+## SEO e publicação
+
+Antes do build de produção, crie um `.env` a partir do `.env.example` com o endereço do site:
+
+```bash
+VITE_SITE_URL=https://seu-dominio.com.br
+```
+
+Com ele, o build gera a URL completa nas meta tags de compartilhamento (a imagem do link no WhatsApp e no Facebook só aparece com URL completa), o `canonical`, o `robots.txt` com o `Sitemap` e o `sitemap.xml`. Sem ele, o site funciona, mas sem esses itens.
+
+- `index.html`: título, descrição, Open Graph e Twitter, ícones e dados estruturados do restaurante (endereço, horários, telefone, redes) para a busca do Google. Se mudar horário ou telefone em `src/data/site.js`, mude aqui também.
+- `public/og-image.jpg`: capa do link (1200×630) com a foto da mesa diante do vale, o logo, o nome e os horários. Se mudar horário, refaça a capa.
+- `src/404.html`: página de erro, gerada como `dist/404.html` com tudo embutido, para funcionar em qualquer caminho.
+- `robots.txt` e `sitemap.xml` são gerados no build por `vite.config.js`.
+
 ## Backend
 
 A pasta `server/` tem a API em NestJS (reservas, experiências, saúde). Veja `server/README.md`.

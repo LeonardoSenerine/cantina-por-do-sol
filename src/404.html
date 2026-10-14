@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Página não encontrada · Cantina Pôr do Sol</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#23201D" />
+    <!-- %HOME% é trocado no build pelo endereço do site (vite.config.js) -->
+    <link rel="icon" type="image/svg+xml" href="%HOME%favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=Young+Serif&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --cal: #fbf9f5;
+        --linha: #e3dcd1;
+        --basalto: #23201d;
+        --pedra: #6f675e;
+        --ouro: #e3b26a;
+        --ouro-2: #ecc489;
+        --ease: cubic-bezier(0.625, 0.05, 0, 1);
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html, body { height: 100%; background: var(--cal); }
+      body {
+        display: grid;
+        place-items: center;
+        padding: 40px max(20px, env(safe-area-inset-left, 0px));
+        color: var(--basalto);
+        font: 17px/1.6 "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      main { width: 100%; max-width: 640px; text-align: center; }
+      .sol { width: 96px; height: 96px; margin: 0 auto; display: block; }
+      .sol circle { transform-origin: 33px 30px; animation: nasce 1.6s var(--ease) both; }
+      @keyframes nasce { from { transform: translateY(22px); opacity: 0; } }
+      .num {
+        margin-top: 28px;
+        font: 400 15px/1 "Hanken Grotesk", sans-serif;
+        letter-spacing: 0.12em;
+        color: var(--pedra);
+      }
+      h1 {
+        margin-top: 14px;
+        font: 400 clamp(36px, 7vw, 60px)/1.06 "Young Serif", Georgia, serif;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+      }
+      p.texto { margin: 20px auto 0; max-width: 460px; color: var(--pedra); font-size: 18px; }
+      .acoes { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+      .btn {
+        position: relative; overflow: hidden;
+        display: inline-flex; align-items: center; gap: 14px;
+        height: 50px; padding: 0 20px;
+        font-size: 15px; font-weight: 500; white-space: nowrap;
+        color: var(--basalto); text-decoration: none;
+      }
+      .btn > * { position: relative; }
+      .ouro { background: var(--ouro); padding-right: 12px; }
+      .ouro::before {
+        content: ""; position: absolute; inset: 0; background: var(--ouro-2);
+        transform: scaleY(0); transform-origin: bottom; transition: transform 0.6s var(--ease);
+      }
+      .ouro:hover::before { transform: scaleY(1); }
+      .sq { display: grid; place-items: center; width: 26px; height: 26px; background: var(--basalto); color: var(--cal); }
+      .linha { border: 1px solid var(--basalto); transition: background-color 0.4s, color 0.4s; }
+      .linha:hover { background: var(--basalto); color: var(--cal); }
+      footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--linha); font-size: 14px; color: var(--pedra); }
+      :focus-visible { outline: 2px solid #b5773c; outline-offset: 3px; }
+      @media (prefers-reduced-motion: reduce) {
+        .sol circle { animation: none; }
+        .ouro::before, .linha { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- o sol do logo, nascendo atrás do telhado -->
+      <svg class="sol" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="33" cy="30" r="15" fill="#F5BC1F" />
+        <path d="M40 52 L48 34 L60 52 Z" fill="#2F6E37" />
+        <path d="M4 52 L30 26 L46 42" fill="none" stroke="#23201D" stroke-width="5" />
+      </svg>
+      <p class="num">ERRO 404</p>
+      <h1>Essa página não existe</h1>
+      <p class="texto">O endereço pode ter mudado ou estar errado. A mesa e a vista continuam no mesmo lugar.</p>
+      <div class="acoes">
+        <a class="btn ouro" href="%HOME%">
+          <span>Voltar ao início</span>
+          <span class="sq" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+          </span>
+        </a>
+        <a class="btn linha" href="https://wa.me/5549988637476?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cantina%20P%C3%B4r%20do%20Sol." target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+      <footer>Cantina Pôr do Sol · Linha Santin, Lajeado Grande – SC</footer>
+    </main>
+  </body>
+</html>
