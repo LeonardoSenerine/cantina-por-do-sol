@@ -46,7 +46,7 @@ export function useSiteAnimations(scope) {
         gsap.set(q('[data-hero-img] img, [data-hero-img] video'), { scale: 1.25 })
 
         // ---------- loader: o logo sobe inteiro de baixo para cima (como uma cortina), o sol
-        // nasce um pouco depois atrás do telhado, o nome aparece e a barra enche. Na volta à
+        // abre girando atrás do telhado, o nome aparece e a barra enche. Na volta à
         // página na mesma sessão, tudo corre quase duas vezes mais rápido.
         const logo = wrap.querySelector('[data-load-logo]')
         const sun = logo.querySelectorAll('[data-logo-sun]')
@@ -55,7 +55,8 @@ export function useSiteAnimations(scope) {
         const box = wrap.querySelector('[data-load-container]')
         const bg = wrap.querySelector('[data-load-bg]')
         gsap.set(logo, { clipPath: 'inset(100% 0% 0% 0%)' })
-        gsap.set(sun, { yPercent: 35 })
+        // o sol cresce girando no próprio lugar; subir de baixo o fazia aparecer por dentro da casa
+        gsap.set(sun, { scale: 0.6, rotation: -40, transformOrigin: '50% 60%' })
         gsap.set(text, { autoAlpha: 0, yPercent: 40 })
         gsap.set(bar, { scaleX: 0 })
 
@@ -71,7 +72,7 @@ export function useSiteAnimations(scope) {
           .timeline({ defaults: { ease: 'osmo' } })
           .timeScale(seen ? 1.8 : 1)
           .to(logo, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1 }, 0)
-          .to(sun, { yPercent: 0, duration: 1.4 }, 0.1)
+          .to(sun, { scale: 1, rotation: 0, duration: 1.5 }, 0.15)
           .to(text, { autoAlpha: 1, yPercent: 0, duration: 0.8, stagger: 0.015 }, 0.45)
           .to(bar, { scaleX: 1, duration: 1.5, ease: 'loader' }, 0)
           .add('hide', 1.55)
