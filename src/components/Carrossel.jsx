@@ -1,97 +1,41 @@
-import { useEffect, useRef, useState } from 'react'
-import { prefersReduced } from '../lib/motion'
+import { useRef } from 'react'
+import { decodeOnce, useRotation } from '../lib/useRotation'
 
-// mosaico de fotos ao fundo; uma moldura por vez troca de foto com um esmaecer suave
+// mosaico de fotos ao fundo; uma moldura por vez troca de foto com um esmaecer suave.
+// As fotos do lugar vêm primeiro, para dominarem o mosaico logo que ele aparece.
 const POOL = [
-  'salao-verde', 'sala-pedra', 'salao-logo', 'salames', 'fachada', 'salao-janelas', 'buffet-cuca',
-  'salao-noite', 'buffet-empadas', 'fachada-2', 'buffet-geleia', 'tabua', 'pao', 'jardim', 'buffet-palmas', 'vista-tabua',
-  'salao-luzes',
+  'fachada', 'salao-mesas', 'sala-pedra', 'salao-luzes', 'por-do-sol-salao', 'salao-janelas',
+  'fachada-2', 'salao-verde', 'salao-noite', 'salao-logo', 'jardim', 'por-do-sol-chimarrao',
+  'salames', 'vista-tabua', 'buffet-cuca', 'tabua', 'pao', 'buffet-geleia', 'buffet-palmas', 'buffet-empadas',
 ]
+// 6×3 no computador; no celular aparecem só as 12 primeiras molduras (3×4)
+const COUNT = 18
+const MOBILE = 12
 const EVERY = 900
 const tileSrc = (n) => `./img/${n}-800.webp`
+const preload = (n) => decodeOnce(tileSrc(n), (img) => { img.src = tileSrc(n) })
 
-// carrega e decodifica a foto antes de ela entrar, para a troca nunca cair num quadro vazio
-const ready = new Map()
-const preload = (n) => {
-  if (!ready.has(n)) {
-    const img = new Image()
-    img.src = tileSrc(n)
-    ready.set(n, img.decode().catch(() => {}))
-  }
-  return ready.get(n)
-}
-
-function Tile({ name, prev }) {
+function Tile({ name, prev, hideOnMobile }) {
   const img = (n) => (
     <img src={tileSrc(n)} alt="" draggable="false" className="absolute inset-0 h-full w-full object-cover" />
   )
   return (
-    <div className="relative overflow-hidden bg-basalto-2">
+    <div className={`relative overflow-hidden bg-basalto-2 ${hideOnMobile ? 'max-md:hidden' : ''}`}>
       {prev && <span key={`p-${prev}`} className="absolute inset-0 block">{img(prev)}</span>}
       <span key={name} className={prev ? 'tile-in absolute inset-0 block' : 'absolute inset-0 block'}>{img(name)}</span>
     </div>
   )
 }
 
-function useTiles(count, root) {
-  const [tiles, setTiles] = useState(() => Array.from({ length: count }, (_, i) => ({ cur: POOL[i % POOL.length], prev: null })))
-  const state = useRef({ tiles, next: count, last: -1 })
-
-  useEffect(() => {
-    if (prefersReduced()) return
-    let visible = false
-    let timer = null
-    let busy = false
-
-    const step = async () => {
-      if (!visible || busy || document.hidden) return
-      busy = true
-      const s = state.current
-      let k = Math.floor(Math.random() * s.tiles.length)
-      if (k === s.last) k = (k + 3) % s.tiles.length
-      const showing = new Set(s.tiles.map((x) => x.cur))
-      let n = s.next % POOL.length
-      while (showing.has(POOL[n])) n = (n + 1) % POOL.length
-
-      await preload(POOL[n])
-      s.last = k
-      s.next = n + 1
-      s.tiles = s.tiles.map((x, i) => (i === k ? { cur: POOL[n], prev: x.cur } : x))
-      setTiles(s.tiles)
-      busy = false
-    }
-
-    // só troca fotos com o mosaico na tela
-    const io = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting
-      if (visible && !timer) {
-        POOL.forEach(preload)
-        timer = setInterval(step, EVERY)
-      } else if (!visible && timer) {
-        clearInterval(timer)
-        timer = null
-      }
-    }, { rootMargin: '200px 0px' })
-    io.observe(root.current)
-
-    return () => {
-      io.disconnect()
-      clearInterval(timer)
-    }
-  }, [root])
-
-  return tiles
-}
-
 // mosaico com o conteúdo (children) centralizado por cima
 export default function Carrossel({ children }) {
   const root = useRef(null)
-  const tiles = useTiles(12, root)
+  const tiles = useRotation(root, { pool: POOL, count: COUNT, every: EVERY, preload })
 
   return (
     <div ref={root} className="relative overflow-hidden bg-basalto text-cal">
-      <div className="absolute inset-0 grid grid-cols-3 grid-rows-4 gap-1 md:grid-cols-6 md:grid-rows-2" aria-hidden="true">
-        {tiles.map((t, i) => <Tile key={i} name={t.cur} prev={t.prev} />)}
+      <div className="absolute inset-0 grid grid-cols-3 grid-rows-4 gap-1 md:grid-cols-6 md:grid-rows-3" aria-hidden="true">
+        {tiles.map((t, i) => <Tile key={i} name={t.cur} prev={t.prev} hideOnMobile={i >= MOBILE} />)}
       </div>
       {/* escurece o mosaico para o texto ler bem, mais forte no centro */}
       <div className="absolute inset-0 bg-basalto/60" aria-hidden="true" />

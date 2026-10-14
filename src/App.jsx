@@ -5,6 +5,7 @@ import Nav, { SideMenu } from './components/Nav'
 import Hero from './components/Hero'
 import Servimos from './components/Servimos'
 import Casa from './components/Casa'
+import Equipe from './components/Equipe'
 import Mapa from './components/Mapa'
 import Faq from './components/Faq'
 import Footer from './components/Footer'
@@ -34,6 +35,7 @@ export default function App() {
         <Hero onReserve={openReserve} />
         <Servimos onReserve={openReserve} />
         <Casa />
+        <Equipe />
         <Mapa />
         <Faq />
       </main>

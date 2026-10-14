@@ -8,6 +8,7 @@ const LINKS = [
   ['servimos', 'O que servimos'],
   ['casa', 'A casa'],
   ['ambientes', 'Ambientes'],
+  ['equipe', 'Equipe'],
   ['onde', 'Como chegar'],
   ['duvidas', 'Dúvidas'],
   ['contato', 'Contato'],
