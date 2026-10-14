@@ -1,5 +1,6 @@
 import { ADDRESS, EXPERIENCES, PHONE_LABEL, SOCIAL, WHATSAPP } from '../data/site'
 import { Arrow, LogoMark } from './Logo'
+import Roll from './Roll'
 import { scrollToId } from '../lib/motion'
 
 const waLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Olá! Vim pelo site da Cantina Pôr do Sol e gostaria de mais informações.')}`
@@ -26,7 +27,7 @@ export default function Footer({ onReserve }) {
             <h2 className="text-[clamp(34px,4.4vw,64px)] text-cal md:col-span-8">Venha pelo sabor autêntico, permaneça pela vista e sinta-se em casa</h2>
             <div className="md:col-span-4 md:justify-self-end">
               <button type="button" className="btn btn-ouro" onClick={() => onReserve()}>
-                <span>Reservar mesa</span>
+                <Roll>Reservar mesa</Roll>
                 <span className="sq" aria-hidden="true"><Arrow /></span>
               </button>
             </div>
@@ -64,7 +65,7 @@ export default function Footer({ onReserve }) {
 
           <div className="mt-24 flex flex-col items-center gap-4 text-cal md:mt-32">
             <span className="bg-cal px-6 py-5"><LogoMark className="h-20 w-auto md:h-28" /></span>
-            <p className="serif text-center text-[clamp(40px,9vw,128px)] leading-none" aria-hidden="true">Cantina Pôr do Sol</p>
+            <p data-split-chars className="serif text-center text-[clamp(40px,9vw,128px)] leading-none" aria-hidden="true">Cantina Pôr do Sol</p>
           </div>
 
           <div className="mt-14 flex flex-col justify-between gap-2 border-t border-cal/15 pt-6 text-[13px] text-cal/45 sm:flex-row">

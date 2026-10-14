@@ -1,4 +1,5 @@
 import { Arrow } from './Logo'
+import Roll from './Roll'
 import { scrollToId } from '../lib/motion'
 import { EXPERIENCES } from '../data/site'
 
@@ -21,11 +22,11 @@ export default function Hero({ onReserve }) {
             </p>
             <div data-hero-fade className="mt-9 flex flex-wrap gap-2.5">
               <button type="button" className="btn btn-ouro" onClick={() => onReserve()}>
-                <span>Reservar pelo WhatsApp</span>
+                <Roll>Reservar pelo WhatsApp</Roll>
                 <span className="sq" aria-hidden="true"><Arrow /></span>
               </button>
               <a href="#servimos" className="btn btn-linha max-md:border-cal/70 max-md:text-cal" onClick={(e) => { e.preventDefault(); scrollToId('servimos') }}>
-                Nossas experiências
+                <Roll>Nossas experiências</Roll>
               </a>
             </div>
           </div>

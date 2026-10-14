@@ -9,6 +9,9 @@ import { gsap, ScrollTrigger, SplitText, useGSAP, initLenis, getLenis, prefersRe
   [data-split]           texto revelado linha por linha ao entrar na tela
   [data-reveal]          filhos sobem e aparecem em sequência (100ms entre eles, 2em)
   [data-parallax]        moldura cuja imagem ou vídeo interno anda -8% → 8%
+  [data-img-reveal]      moldura que abre de baixo para cima ao entrar, com a foto assentando o zoom
+  [data-fade]            elemento pequeno (rótulo) que sobe com um esmaecer
+  [data-split-chars]     texto revelado letra por letra
   [data-footer-parallax] rodapé "sobe por baixo" do conteúdo
   [data-nav]             barra do topo some ao rolar para baixo e volta ao subir
 */
@@ -120,6 +123,48 @@ export function useSiteAnimations(scope) {
             { yPercent: -8 },
             { yPercent: 8, ease: 'none', scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true } },
           )
+        })
+
+        // ---------- fotos que se abrem de baixo para cima ao entrar na tela, com o zoom assentando.
+        // Em molduras com parallax a foto já se move, então só a moldura abre.
+        q('[data-img-reveal]').forEach((frame) => {
+          const img = frame.querySelector('img')
+          const tl = gsap.timeline({ scrollTrigger: { trigger: frame, start: 'top 88%', once: true } })
+          tl.fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'osmo', clearProps: 'clipPath' })
+          if (img && !frame.hasAttribute('data-parallax') && !frame.closest('[data-parallax]')) {
+            // clearProps devolve o zoom do :hover ao CSS depois da entrada
+            tl.fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1.6, ease: 'osmo', clearProps: 'transform' }, 0)
+          }
+        })
+
+        // ---------- rótulos pequenos das seções sobem com um esmaecer
+        q('[data-fade]').forEach((el) => {
+          gsap.fromTo(
+            el,
+            { y: 14, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.9, ease: 'osmo', scrollTrigger: { trigger: el, start: 'top 90%', once: true } },
+          )
+        })
+
+        // ---------- letra por letra (o nome grande do rodapé)
+        q('[data-split-chars]').forEach((el) => {
+          SplitText.create(el, {
+            type: 'chars',
+            mask: 'chars',
+            autoSplit: true,
+            onSplit: (self) =>
+              gsap.fromTo(
+                self.chars,
+                { yPercent: 110 },
+                {
+                  yPercent: 0,
+                  duration: 1.1,
+                  ease: 'osmo',
+                  stagger: 0.025,
+                  scrollTrigger: { trigger: el, start: 'top 95%', once: true },
+                },
+              ),
+          })
         })
 
         // ---------- rodapé

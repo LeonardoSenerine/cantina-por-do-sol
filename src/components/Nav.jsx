@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Wordmark, Arrow } from './Logo'
+import Roll from './Roll'
 import { gsap, useGSAP, scrollToId, getLenis, prefersReduced } from '../lib/motion'
 import { EXPERIENCES, PHONE_LABEL, ADDRESS, SOCIAL } from '../data/site'
 
@@ -43,7 +44,7 @@ export default function Nav({ onReserve, menuOpen, setMenuOpen }) {
         </a>
 
         <button type="button" onClick={() => onReserve()} className="btn btn-ouro justify-self-end h-11 pl-4 text-[14px] md:h-[50px] md:pl-5 md:text-[15px]">
-          <span><span className="hidden sm:inline">Reservar mesa</span><span className="sm:hidden">Reservar</span></span>
+          <span><Roll className="max-sm:hidden">Reservar mesa</Roll><Roll className="sm:hidden">Reservar</Roll></span>
           <span className="sq" aria-hidden="true"><Arrow /></span>
         </button>
       </nav>
@@ -118,7 +119,7 @@ export function SideMenu({ open, onClose, onReserve }) {
 
         <div data-menu-fade className="mt-10">
           <button type="button" onClick={() => { onClose(); onReserve() }} tabIndex={tab} className="btn btn-ouro">
-            <span>Reservar mesa</span>
+            <Roll>Reservar mesa</Roll>
             <span className="sq" aria-hidden="true"><Arrow /></span>
           </button>
         </div>

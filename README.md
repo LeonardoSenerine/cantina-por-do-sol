@@ -11,7 +11,8 @@ npm run build    # gera dist/ para publicar (Vercel, Netlify, Hostinger…)
 ## Onde mexer
 
 - `src/data/site.js` — horários, preço, WhatsApp, endereço, redes, perguntas frequentes e textos das experiências.
-- `src/lib/animations.js` — todas as animações globais, ligadas por data-atributos (`data-split`, `data-reveal`, `data-parallax`, `data-speed`, `data-footer-parallax`, `data-nav`).
+- `src/lib/animations.js` — todas as animações globais, ligadas por data-atributos (`data-split`, `data-split-chars`, `data-reveal`, `data-fade`, `data-img-reveal`, `data-parallax`, `data-footer-parallax`, `data-nav`). A lista do que cada um faz está no topo do arquivo.
+- `src/components/Roll.jsx` — texto de botão que rola para cima no hover; use dentro de `.btn`.
 - `src/lib/motion.js` — registra os plugins, as curvas `osmo` e `loader` e o Lenis.
 - `src/lib/useRotation.js` — revezamento de fotos entre molduras, usado no mosaico de Nosso trabalho e na Equipe.
 - `src/components/` — Nav (com o menu lateral), Hero, Servimos, Casa (bloco escuro da essência com a foto da tábua ao lado), Ambientes (carrossel infinito de fotos do lugar com legenda: anda sozinho, para com o mouse por cima, tem setas, botão de pausa e dá para arrastar; as fotos e legendas ficam no topo do arquivo), Trabalho ("Conheça mais nosso trabalho": mosaico só com fotos de comida que trocam sozinhas, em `Mosaico.jsx`), Equipe ("Sempre preparada para atender": seis molduras em que as sete fotos `chef-mesa` e `equipe-*` se revezam), Mapa (Google Maps embutido), Faq, Footer e ReserveDrawer (painel que monta a mensagem e abre `wa.me`).

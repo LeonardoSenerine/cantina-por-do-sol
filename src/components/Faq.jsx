@@ -7,7 +7,7 @@ export default function Faq() {
     <section id="duvidas" className="gutter border-t border-linha py-24 md:py-36">
       <div className="mx-auto grid max-w-[1320px] gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="text-[15px] font-medium">Dúvidas</p>
+          <p data-fade className="text-[15px] font-medium">Dúvidas</p>
           <h2 data-split className="mt-5 text-[clamp(32px,3.8vw,52px)]">O que perguntam antes de vir</h2>
         </div>
         <ul className="md:col-span-7 md:col-start-6">
@@ -38,7 +38,7 @@ export default function Faq() {
                   className={`grid transition-[grid-template-rows] duration-500 ease-[var(--ease-osmo)] ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
                 >
                   <div className="overflow-hidden">
-                    <p className="max-w-[600px] pb-7 pr-10 text-pedra">{item.a}</p>
+                    <p className={`max-w-[600px] pb-7 pr-10 text-pedra transition-[opacity,translate] duration-500 ease-[var(--ease-osmo)] ${isOpen ? 'translate-y-0 opacity-100 delay-100' : '-translate-y-2 opacity-0'}`}>{item.a}</p>
                   </div>
                 </div>
               </li>

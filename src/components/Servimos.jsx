@@ -1,12 +1,13 @@
 import { EXPERIENCES, PRICE, srcSet } from '../data/site'
 import { Arrow } from './Logo'
+import Roll from './Roll'
 
 export default function Servimos({ onReserve }) {
   return (
     <section id="servimos" className="gutter py-24 md:py-36">
       <div className="mx-auto max-w-[1320px]">
         <div className="grid gap-5 md:grid-cols-12">
-          <p className="text-[15px] font-medium md:col-span-4">Nossas experiências</p>
+          <p data-fade className="text-[15px] font-medium md:col-span-4">Nossas experiências</p>
           <h2 data-split className="text-[clamp(32px,4.2vw,58px)] md:col-span-8">
             Mesa colonial no domingo, rodízio de pizzas de quinta a sábado
           </h2>
@@ -18,6 +19,7 @@ export default function Servimos({ onReserve }) {
               <button
                 type="button"
                 onClick={() => onReserve(exp.weekdays ? exp.id : undefined)}
+                data-img-reveal
                 className="relative block aspect-[4/5] overflow-hidden bg-areia text-left"
                 aria-label={exp.weekdays ? `Reservar ${exp.name}` : 'Reservar uma mesa'}
               >
@@ -66,7 +68,7 @@ export default function Servimos({ onReserve }) {
                 onClick={() => onReserve(exp.weekdays ? exp.id : undefined)}
                 className="btn btn-linha mt-6 self-start"
               >
-                {exp.weekdays ? `Reservar o ${exp.name.toLowerCase()}` : 'Reservar uma mesa'}
+                <Roll>{exp.weekdays ? `Reservar o ${exp.name.toLowerCase()}` : 'Reservar uma mesa'}</Roll>
               </button>
             </article>
           ))}

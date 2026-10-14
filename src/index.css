@@ -80,6 +80,13 @@
   .btn-linha-clara { padding: 0 20px; border: 1px solid rgba(251, 249, 245, .55); color: var(--color-cal); transition: background-color .4s, color .4s; }
   .btn-linha-clara:hover { background: var(--color-cal); color: var(--color-basalto); }
 
+  /* texto do botão rola para cima no :hover e a cópia entra por baixo (componente Roll) */
+  .roll { position: relative; display: inline-block; overflow: hidden; vertical-align: top; line-height: 1.25; }
+  .roll > span, .roll::after { display: block; transition: transform .6s var(--ease-osmo); }
+  .roll::after { content: attr(data-text); position: absolute; left: 0; top: 100%; }
+  .btn:hover .roll > span, .btn:hover .roll::after,
+  .btn:focus-visible .roll > span, .btn:focus-visible .roll::after { transform: translateY(-100%); }
+
   /* link de texto com sublinhado que corre */
   .ulink { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .5s var(--ease-osmo); padding-bottom: 2px; }
   .ulink:hover { background-size: 0% 1px; background-position: 100% 100%; }
@@ -99,7 +106,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn-ouro::before, .btn .sq svg, .ulink { transition: none; }
+  .btn-ouro::before, .btn .sq svg, .ulink, .roll > span, .roll::after { transition: none; }
 }
 
 /* troca de foto do mosaico: a nova aparece suavemente sobre a anterior */

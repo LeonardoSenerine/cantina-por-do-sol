@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { gsap, prefersReduced } from '../lib/motion'
+import { gsap, getLenis, prefersReduced } from '../lib/motion'
 import { Arrow } from './Logo'
 
 // Fotos do lugar, na ordem de quem chega: fachada, salões e o fim de tarde.
@@ -25,7 +25,7 @@ export default function Ambientes() {
   pausedRef.current = paused
   // esteira: anda sozinha da direita para a esquerda e recomeça sem emenda (as fotos vêm duas
   // vezes seguidas e a posição volta uma volta inteira quando passa do fim da primeira série)
-  const state = useRef({ pos: 0, speed: 0, hover: false, drag: null, visible: false })
+  const state = useRef({ pos: 0, speed: 0, boost: 0, hover: false, drag: null, visible: false })
 
   useEffect(() => {
     const el = track.current
@@ -41,7 +41,11 @@ export default function Ambientes() {
       if (!s.visible) return
       const moving = !prefersReduced() && !pausedRef.current && !s.hover && !s.drag && !document.hidden
       s.speed += ((moving ? 1 : 0) - s.speed) * 0.05 // acelera e freia suave
-      s.pos = wrap(s.pos - BASE * s.speed * (gsap.ticker.deltaRatio() / 60))
+      // a rolagem da página empurra a esteira no mesmo sentido (descer → esquerda, subir → direita)
+      // e o empurrão some aos poucos
+      const v = s.drag || prefersReduced() ? 0 : getLenis()?.velocity || 0
+      s.boost += (gsap.utils.clamp(-900, 900, v * 22) - s.boost) * 0.08
+      s.pos = wrap(s.pos - (BASE * s.speed + s.boost) * (gsap.ticker.deltaRatio() / 60))
       el.style.transform = `translate3d(${s.pos}px,0,0)`
     }
     gsap.ticker.add(tick)
@@ -119,8 +123,8 @@ export default function Ambientes() {
       <div className="gutter">
         <div className="mx-auto grid max-w-[1320px] gap-5 md:grid-cols-12">
           <div className="md:col-span-4">
-            <p className="text-[15px] font-medium">Ambientes</p>
-            <p className="serif mt-3 text-[22px] text-pinus">Pode chegar com calma</p>
+            <p data-fade className="text-[15px] font-medium">Ambientes</p>
+            <p data-fade className="serif mt-3 text-[22px] text-pinus">Pode chegar com calma</p>
           </div>
           <div className="md:col-span-8">
             <p data-split className="serif text-[clamp(24px,2.5vw,34px)] leading-[1.3]">

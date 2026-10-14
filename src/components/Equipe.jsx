@@ -43,7 +43,7 @@ function Foto({ name, prev, slot }) {
     />
   )
   return (
-    <div className={`relative overflow-hidden bg-areia ${slot.box}`}>
+    <div data-img-reveal className={`relative overflow-hidden bg-areia ${slot.box}`}>
       {prev && <span key={`p-${prev}`} className="absolute inset-0 block" aria-hidden="true">{img(prev, '')}</span>}
       <span key={name} className={prev ? 'tile-in absolute inset-0 block' : 'absolute inset-0 block'}>{img(name, FOTOS[name].alt)}</span>
     </div>
@@ -60,8 +60,8 @@ export default function Equipe() {
       <div className="mx-auto max-w-[1320px]">
         <div className="grid gap-5 md:grid-cols-12">
           <div className="md:col-span-4">
-            <p className="text-[15px] font-medium">Nossa equipe</p>
-            <p className="serif mt-3 text-[22px] text-pinus">Por trás de cada mesa</p>
+            <p data-fade className="text-[15px] font-medium">Nossa equipe</p>
+            <p data-fade className="serif mt-3 text-[22px] text-pinus">Por trás de cada mesa</p>
           </div>
           <div className="md:col-span-8">
             <h2 data-split className="text-[clamp(32px,4.2vw,58px)]">Sempre preparada para atender</h2>
