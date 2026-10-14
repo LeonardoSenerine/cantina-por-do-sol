@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+  Cantina Pôr do Sol — direção "Madeira e pedra"
+  Layout: como o Studenterkilden — muito branco, título central em serifa,
+  fotos grandes de cantos retos, uma seção escura de pedra basalto, rodapé escuro.
+*/
+@theme {
+  --color-cal: #FBF9F5;       /* fundo: parede caiada */
+  --color-areia: #F2EDE4;     /* superfícies secundárias */
+  --color-linha: #E3DCD1;     /* fios e divisórias */
+  --color-basalto: #23201D;   /* texto e seções escuras */
+  --color-basalto-2: #2F2B27;
+  --color-pedra: #6F675E;     /* texto secundário */
+  --color-ouro: #E3B26A;      /* botão principal */
+  --color-ouro-2: #ECC489;
+  --color-pinus: #B5773C;     /* detalhe raro */
+
+  --font-serif: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-osmo: cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+@layer base {
+  html, body { background: var(--color-cal); }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  body {
+    color: var(--color-basalto);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1, h2, h3, .serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+  ::selection { background: var(--color-ouro-2); color: var(--color-basalto); }
+  :focus-visible { outline: 2px solid var(--color-pinus); outline-offset: 3px; }
+}
+
+@layer components {
+  .gutter {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .gutter { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
+  }
+
+  /* botão no estilo do Studenterkilden: retângulo dourado com um quadradinho escuro */
+  .btn {
+    position: relative; display: inline-flex; align-items: center; gap: 14px;
+    height: 50px; padding: 0 12px 0 20px; overflow: hidden;
+    font-size: 15px; font-weight: 500; white-space: nowrap;
+  }
+  .btn-ouro { background: var(--color-ouro); color: var(--color-basalto); }
+  .btn-ouro::before {
+    content: ""; position: absolute; inset: 0; background: var(--color-ouro-2);
+    transform: scaleY(0); transform-origin: bottom; transition: transform .6s var(--ease-osmo);
+  }
+  .btn-ouro:hover::before { transform: scaleY(1); }
+  .btn > * { position: relative; }
+  .btn .sq {
+    display: grid; place-items: center; width: 26px; height: 26px;
+    background: var(--color-basalto); color: var(--color-cal);
+  }
+  .btn .sq svg { transition: transform .5s var(--ease-osmo); }
+  .btn:hover .sq svg { transform: translateX(2px); }
+  .btn-linha { padding: 0 20px; border: 1px solid var(--color-basalto); transition: background-color .4s, color .4s; }
+  .btn-linha:hover { background: var(--color-basalto); color: var(--color-cal); }
+  .btn-linha-clara { padding: 0 20px; border: 1px solid rgba(251, 249, 245, .55); color: var(--color-cal); transition: background-color .4s, color .4s; }
+  .btn-linha-clara:hover { background: var(--color-cal); color: var(--color-basalto); }
+
+  /* link de texto com sublinhado que corre */
+  .ulink { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .5s var(--ease-osmo); padding-bottom: 2px; }
+  .ulink:hover { background-size: 0% 1px; background-position: 100% 100%; }
+
+  /* moldura de foto com parallax: a imagem é maior que a moldura */
+  .frame { position: relative; overflow: hidden; background: var(--color-areia); }
+  .frame > img { position: absolute; inset: -10% 0; width: 100%; height: 120%; object-fit: cover; }
+
+  .field label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; height: 48px; padding: 0 14px; border-radius: 0;
+    background: var(--color-cal); border: 1px solid #D6CDBF; font-size: 16px; color: var(--color-basalto);
+  }
+  .field textarea { height: 88px; padding: 12px 14px; resize: none; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--color-basalto); outline-offset: -1px; }
+  .field [aria-invalid="true"] { border-color: #A8321F; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-ouro::before, .btn .sq svg, .ulink { transition: none; }
+}
+
+/* troca de foto do mosaico: a nova aparece suavemente sobre a anterior */
+@keyframes tile-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.tile-in { animation: tile-in .9s ease-in-out both; }
+@media (prefers-reduced-motion: reduce) { .tile-in { animation: none; } }
