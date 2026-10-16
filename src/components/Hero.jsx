@@ -1,42 +1,63 @@
 import { Arrow } from './Logo'
 import Roll from './Roll'
+import Price from './Price'
 import { scrollToId } from '../lib/motion'
-import { HOURS } from '../data/site'
+import { CAFE, KIDS, PIZZA, SUNDAY } from '../data/site'
 
+// Topo em clima de inauguração: quem entra já vê os três momentos do domingo,
+// como funcionam e quanto custam. O título fica como está (é o LCP).
 export default function Hero({ onReserve }) {
   return (
     <section id="inicio" className="pt-[calc(env(safe-area-inset-top,0px)+76px)] md:pt-[88px]">
       {/* no celular a foto fica ao fundo, com o texto por cima; a partir de md, lado a lado */}
       <div className="relative grid md:min-h-[calc(100svh-88px)] md:grid-cols-2">
         {/* texto */}
-        <div className="gutter relative z-10 flex flex-col justify-between pb-12 pt-14 max-md:min-h-[calc(100svh-76px)] max-md:justify-end max-md:pt-40 max-md:text-cal md:pb-14 md:pt-20 md:pr-12 lg:pr-20">
+        <div className="gutter relative z-10 flex flex-col justify-center pb-10 pt-14 max-md:min-h-[calc(100svh-76px)] max-md:justify-end max-md:pt-28 max-md:text-cal md:pb-14 md:pt-16 md:pr-12 lg:pr-20">
           <div className="max-w-[620px]">
-            <p data-hero-fade className="serif text-[17px] text-pedra max-md:text-cal/85 md:text-[18px]">Lajeado Grande, Santa Catarina</p>
-            <h1 data-hero-title className="mt-5 text-[clamp(40px,4.8vw,76px)]">
+            <p data-hero-fade className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] font-medium">
+              <span className="flex items-center gap-2 text-pinus max-md:text-ouro">
+                <span className="block h-2 w-2 rounded-full bg-current" aria-hidden="true" />
+                Inauguração do novo espaço
+              </span>
+              <span className="text-pedra max-md:text-cal/75">Aos domingos</span>
+            </p>
+            <h1 data-hero-title className="mt-5 text-[clamp(38px,4.4vw,70px)]">
               Onde o sabor encontra uma vista inesquecível
             </h1>
-            <p data-hero-fade className="mt-7 max-w-[500px] text-[18px] text-pedra max-md:text-cal/85">
-              Há lugares em que a paisagem, por si só, já justifica a experiência. Aqui o fim de tarde tinge o céu de cores únicas enquanto a mesa é servida.
+            <p data-hero-fade className="mt-6 max-w-[500px] text-[18px] text-pedra max-md:hidden">
+              O café colonial ganhou casa nova. Aos domingos, o dia tem três momentos, cada um com o seu valor:
             </p>
-            <div data-hero-fade className="mt-9 flex flex-wrap gap-2.5">
-              <button type="button" className="btn btn-ouro" onClick={() => onReserve()}>
-                <Roll>Reservar pelo WhatsApp</Roll>
+
+            {/* os três momentos do domingo, com horário e valor */}
+            <ol data-hero-fade className="mt-7 border-y border-linha max-md:border-cal/25" aria-label="Domingo na cantina">
+              {SUNDAY.map((m) => (
+                <li key={m.name} className="flex items-center justify-between gap-4 border-t border-linha py-3 first:border-t-0 max-md:border-cal/20 md:py-3.5">
+                  <span>
+                    <span className="serif block text-[22px] leading-tight md:text-[24px]">{m.short}</span>
+                    <span className="mt-0.5 block text-[14px] tabular-nums text-pedra max-md:text-cal/75">{m.from} às {m.to}</span>
+                  </span>
+                  <Price value={m.exp.prices[0].price} className="text-[30px] leading-none md:text-[34px]" />
+                </li>
+              ))}
+            </ol>
+            <p data-hero-fade className="mt-3 text-[14px] text-pedra max-md:text-cal/75">
+              Valor por pessoa, com reserva pelo WhatsApp. {KIDS}.
+            </p>
+
+            <div data-hero-fade className="mt-7 flex flex-wrap gap-2.5">
+              <button type="button" className="btn btn-ouro" onClick={() => onReserve(CAFE.id)}>
+                <Roll>Reservar o domingo</Roll>
                 <span className="sq" aria-hidden="true"><Arrow /></span>
               </button>
-              <a href="#servimos" className="btn btn-linha max-md:border-cal/70 max-md:text-cal" onClick={(e) => { e.preventDefault(); scrollToId('servimos') }}>
-                <Roll>Nossas experiências</Roll>
+              <a href="#inauguracao" className="btn btn-linha max-md:border-cal/70 max-md:text-cal" onClick={(e) => { e.preventDefault(); scrollToId('inauguracao') }}>
+                <Roll>Conheça o novo espaço</Roll>
               </a>
             </div>
-          </div>
 
-          <dl data-hero-fade className="mt-14 grid max-w-[620px] grid-cols-2 gap-6 border-t border-linha pt-6 text-[15px] max-md:mt-10 max-md:border-cal/25">
-            {HOURS.map((h) => (
-              <div key={h.label}>
-                <dt className="text-pedra max-md:text-cal/70">{h.label}</dt>
-                <dd className="mt-1">{h.when}</dd>
-              </div>
-            ))}
-          </dl>
+            <p data-hero-fade className="mt-8 text-[14px] text-pedra max-md:text-cal/70">
+              {PIZZA.name}: {PIZZA.days.toLowerCase()}, {PIZZA.hours}.
+            </p>
+          </div>
         </div>
 
         {/* o pôr do sol sobre o vale, visto do banco da cantina */}
@@ -50,7 +71,7 @@ export default function Hero({ onReserve }) {
             style={{ objectPosition: '50% 45%' }}
           />
           {/* só no celular: escurece de cima para baixo para o texto ler bem */}
-          <div className="absolute inset-0 bg-linear-to-b from-basalto/0 via-basalto/45 to-basalto/90 md:hidden" aria-hidden="true" />
+          <div className="absolute inset-0 bg-linear-to-b from-basalto/45 via-basalto/65 to-basalto/95 md:hidden" aria-hidden="true" />
         </div>
       </div>
     </section>

@@ -75,6 +75,7 @@ export const SUNDAY = [
   {
     exp: CAFE,
     name: 'Café colonial da manhã',
+    short: 'Café da manhã',
     from: '8h',
     to: '10h30',
     text: 'A mesa posta logo cedo, com pão caseiro ainda morno, cucas, geleias da casa e café fresquinho para começar o domingo devagar.',
@@ -82,6 +83,7 @@ export const SUNDAY = [
   {
     exp: ALMOCO,
     name: 'Almoço',
+    short: 'Almoço',
     from: '11h',
     to: '14h30',
     text: 'Comida quente feita na cozinha da casa, com tempero de família e a calma de quem almoça olhando para o vale.',
@@ -89,6 +91,7 @@ export const SUNDAY = [
   {
     exp: CAFE,
     name: 'Café colonial da tarde',
+    short: 'Café da tarde',
     from: '15h',
     to: '18h',
     text: 'A mesa se enche de novo para a tarde: bolos, cucas, empadas e frios, até o sol começar a baixar no horizonte.',
