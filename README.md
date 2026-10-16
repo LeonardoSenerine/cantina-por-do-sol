@@ -48,3 +48,10 @@ A pasta `server/` tem a API em NestJS (reservas, experiências, saúde). Veja `s
 - Confirmar: horários de reserva por experiência, regra de crianças até 5 anos, se os salames são da casa, e se podem citar "Leonir e Maristela · Família Geroldi".
 - Confirmar o "cerca de 95% dos produtos de fabricação própria" (bloco da essência e perguntas frequentes): é um número forte e precisa ser exato.
 - Confirmar: se "crianças de 6 a 9 anos pagam metade" vale para os novos valores (café R$ 59,90, almoço R$ 69,90, rodízio R$ 90,00 / R$ 100,00); em que dias e horários vale a visitação de R$ 20,00; o que é servido no almoço; se servem vinho no rodízio.
+
+## Divulgação
+
+A pasta `divulgacao/` guarda as artes para o Instagram (fica fora de `public/`, então não vai para o site):
+
+- `inauguracao-post-1080x1350.png` e `inauguracao-stories-1080x1920.png`: o domingo com café da manhã, almoço e café da tarde, horários e valores.
+- `novo-espaco-post-1080x1350.png` e `novo-espaco-stories-1080x1920.png`: o anúncio do novo espaço. As fotos são quadros do vídeo da inauguração, cortados para tirar a marca do Canal Ideal e sem rostos.
