@@ -54,9 +54,21 @@ export default function Hero({ onReserve }) {
               </a>
             </div>
 
-            <p data-hero-fade className="mt-8 text-[14px] text-pedra max-md:text-cal/70">
-              {PIZZA.name}: {PIZZA.days.toLowerCase()}, {PIZZA.hours}.
-            </p>
+            {/* o rodízio, com o valor de cada noite */}
+            <div data-hero-fade className="mt-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-t border-linha pt-5 max-md:border-cal/25">
+              <p>
+                <span className="serif block text-[22px] leading-tight md:text-[24px]">{PIZZA.name}</span>
+                <span className="mt-0.5 block text-[14px] text-pedra max-md:text-cal/75">{PIZZA.days}, {PIZZA.hours}</span>
+              </p>
+              <dl className="flex gap-6">
+                {PIZZA.prices.map((p) => (
+                  <div key={p.label}>
+                    <dt className="text-[13px] text-pedra max-md:text-cal/75">{p.label}</dt>
+                    <dd><Price value={p.price} className="text-[28px] leading-none md:text-[30px]" /></dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
         </div>
 
