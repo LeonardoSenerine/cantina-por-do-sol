@@ -54,4 +54,4 @@ A pasta `server/` tem a API em NestJS (reservas, experiências, saúde). Veja `s
 A pasta `divulgacao/` guarda as artes para o Instagram (fica fora de `public/`, então não vai para o site):
 
 - `inauguracao-post-1080x1350.png` e `inauguracao-stories-1080x1920.png`: o domingo com café da manhã, almoço e café da tarde, horários e valores, sobre a foto da tábua de frios (`tabua`), com a mesa do café com flores (`buffet-mesa`) em destaque.
-- `novo-espaco-post-1080x1350.png` e `novo-espaco-stories-1080x1920.png`: o anúncio do novo espaço, com a janela para o vale (`vista-tabua`) e a tábua de frios em destaque.
+- `novo-espaco-post-1080x1350.png` e `novo-espaco-stories-1080x1920.png`: o anúncio do novo espaço, com o pôr do sol sobre o vale (`por-do-sol-chimarrao`) ao fundo e a tábua de frios em destaque.
