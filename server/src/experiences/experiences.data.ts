@@ -9,6 +9,8 @@ export interface Experience {
   // 0 = domingo ... 6 = sábado
   weekdays: number[];
   slots: string[];
+  // horários de um dia específico, quando diferem de `slots`
+  slotsByDay?: Partial<Record<number, string[]>>;
 }
 
 export const EXPERIENCE_IDS = ['cafe', 'almoco', 'pizza'] as const;
@@ -18,9 +20,9 @@ export const EXPERIENCES: Experience[] = [
   {
     id: 'cafe',
     name: 'Café colonial',
-    days: 'Aos domingos',
-    hours: '8h às 10h30 e 15h às 18h',
-    weekdays: [0],
+    days: 'Sábado e domingo',
+    hours: 'sáb 14h às 17h; dom 8h às 10h30 e 15h às 18h',
+    weekdays: [0, 6],
     slots: [
       '08:00',
       '08:30',
@@ -32,6 +34,7 @@ export const EXPERIENCES: Experience[] = [
       '16:30',
       '17:00',
     ],
+    slotsByDay: { 6: ['14:00', '14:30', '15:00', '15:30', '16:00'] },
   },
   {
     id: 'almoco',
@@ -59,6 +62,10 @@ export const EXPERIENCES: Experience[] = [
     ],
   },
 ];
+
+// horários de reserva da experiência num dia da semana
+export const slotsFor = (exp: Experience, weekday: number) =>
+  exp.slotsByDay?.[weekday] ?? exp.slots;
 
 export const findExperience = (id: string) =>
   EXPERIENCES.find((e) => e.id === id);

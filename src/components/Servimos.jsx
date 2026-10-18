@@ -1,4 +1,4 @@
-import { ALMOCO, CAFE, KIDS, MESA, PIZZA, SUNDAY, VISITA, WHATSAPP, srcSet } from '../data/site'
+import { ALMOCO, CAFE, KIDS, MESA, PIZZA, SATURDAY, SUNDAY, VISITA, WHATSAPP, srcSet } from '../data/site'
 import { Arrow } from './Logo'
 import Roll from './Roll'
 import Price from './Price'
@@ -22,7 +22,7 @@ function Domingo({ onReserve }) {
   return (
     <section id="cafe" className="gutter py-24 md:py-36">
       <div className="mx-auto max-w-[1320px]">
-        <Head n="01" label="Aos domingos" title="Café colonial e almoço, do começo da manhã ao fim da tarde" />
+        <Head n="01" label="Sábado e domingo" title="Café colonial e almoço, do começo da manhã ao fim da tarde" />
 
         <div className="mt-14 grid gap-14 md:mt-24 md:grid-cols-12 md:gap-8">
           {/* fotos: a mesa do café e, por cima, um detalhe da cuca */}
@@ -43,15 +43,15 @@ function Domingo({ onReserve }) {
 
           <div className="md:col-span-6 md:col-start-7">
             <p data-reveal className="serif text-[clamp(22px,2vw,28px)] leading-[1.35]">
-              <span>Domingo é dia de mesa farta. A casa abre cedo e o dia se divide em três momentos, cada um com o seu tempo.</span>
+              <span>Domingo é dia de mesa farta. A casa abre cedo e o dia se divide em três momentos, cada um com o seu tempo. No sábado, o café colonial também é servido à tarde.</span>
             </p>
 
-            {/* o programa do domingo, na ordem do dia */}
+            {/* o programa do domingo, na ordem do dia, e o café de sábado */}
             <ol data-reveal data-stagger="90" className="mt-10 border-b border-linha">
-              {SUNDAY.map((m) => (
+              {[...SUNDAY, SATURDAY].map((m) => (
                 <li key={m.name} className="border-t border-linha py-6">
                   <div className="flex items-baseline justify-between gap-4">
-                    <p className="text-[15px] font-medium tabular-nums text-pinus">{m.from} às {m.to}</p>
+                    <p className="text-[15px] font-medium tabular-nums text-pinus">{m.day}, {m.from} às {m.to}</p>
                     <Price value={m.exp.prices[0].price} className="text-[30px] leading-none" />
                   </div>
                   <h3 className="mt-3 text-[26px] md:text-[30px]">{m.name}</h3>

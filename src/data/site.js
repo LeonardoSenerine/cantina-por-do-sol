@@ -29,15 +29,20 @@ export const KIDS = 'Crianças de 6 a 9 anos pagam metade'
 
 // Experiências com reserva (o painel de reserva e o servidor usam estas regras).
 // weekdays: 0 = domingo ... 6 = sábado. prices: valor por pessoa em cada dia.
+// slotsByDay: horários de reserva de um dia específico, quando diferem de `slots`.
 export const CAFE = {
   id: 'cafe',
   name: 'Café colonial',
-  days: 'Aos domingos',
-  hours: '8h às 10h30 e 15h às 18h',
-  weekdays: [0],
+  days: 'Sábado e domingo',
+  hours: 'sáb 14h às 17h; dom 8h às 10h30 e 15h às 18h',
+  weekdays: [0, 6],
   slots: ['08:00', '08:30', '09:00', '09:30', '15:00', '15:30', '16:00', '16:30', '17:00'],
+  slotsByDay: { 6: ['14:00', '14:30', '15:00', '15:30', '16:00'] },
   slot: '09:00',
-  prices: [{ label: 'Domingo', on: 'no domingo', weekdays: [0], price: 'R$ 59,90' }],
+  prices: [
+    { label: 'Sábado', on: 'no sábado', weekdays: [6], price: 'R$ 59,90' },
+    { label: 'Domingo', on: 'no domingo', weekdays: [0], price: 'R$ 59,90' },
+  ],
 }
 
 export const ALMOCO = {
@@ -70,12 +75,16 @@ export const EXPERIENCES = [CAFE, ALMOCO, PIZZA]
 // valor da experiência num dia da semana (ou undefined se ela não acontece nesse dia)
 export const priceOn = (exp, weekday) => exp.prices.find((p) => p.weekdays.includes(weekday))
 
+// horários de reserva da experiência num dia da semana
+export const slotsFor = (exp, weekday) => exp.slotsByDay?.[weekday] ?? exp.slots
+
 // O domingo, na ordem do dia
 export const SUNDAY = [
   {
     exp: CAFE,
     name: 'Café colonial da manhã',
     short: 'Café da manhã',
+    day: 'Domingo',
     from: '8h',
     to: '10h30',
     text: 'A mesa posta logo cedo, com pão caseiro ainda morno, cucas, geleias da casa e café fresquinho para começar o domingo devagar.',
@@ -84,6 +93,7 @@ export const SUNDAY = [
     exp: ALMOCO,
     name: 'Almoço',
     short: 'Almoço',
+    day: 'Domingo',
     from: '11h',
     to: '14h30',
     text: 'Comida quente feita na cozinha da casa, com tempero de família e a calma de quem almoça olhando para o vale.',
@@ -92,11 +102,23 @@ export const SUNDAY = [
     exp: CAFE,
     name: 'Café colonial da tarde',
     short: 'Café da tarde',
+    day: 'Domingo',
     from: '15h',
     to: '18h',
     text: 'A mesa se enche de novo para a tarde: bolos, cucas, empadas e frios, até o sol começar a baixar no horizonte.',
   },
 ]
+
+// O sábado à tarde, antes do rodízio
+export const SATURDAY = {
+  exp: CAFE,
+  name: 'Café colonial de sábado',
+  short: 'Café da tarde',
+  day: 'Sábado',
+  from: '14h',
+  to: '17h',
+  text: 'A mesa colonial também é servida no sábado à tarde: bolos, cucas, empadas e frios com a vista do vale, antes do rodízio da noite.',
+}
 
 // o que vai à mesa do café colonial
 export const MESA = ['Cucas', 'Pão caseiro', 'Empadas', 'Geleias', 'Bolos', 'Frios e salames', 'Bruschettas', 'Frutas']
@@ -111,6 +133,7 @@ export const VISITA = {
 export const HOURS = [
   { label: PIZZA.name, when: `${PIZZA.days}, ${PIZZA.hours}` },
   { label: 'Café colonial e almoço', when: 'Domingos, 8h às 18h' },
+  { label: 'Café colonial de sábado', when: 'Sábados, 14h às 17h' },
 ]
 
 export const FAQ = [
@@ -120,11 +143,11 @@ export const FAQ = [
   },
   {
     q: 'Quanto custa?',
-    a: `Aos domingos, o café colonial custa ${CAFE.prices[0].price} e o almoço ${ALMOCO.prices[0].price} por pessoa. O rodízio de pizzas custa ${PIZZA.prices[0].price} na quinta e na sexta e ${PIZZA.prices[1].price} no sábado. ${KIDS}. A visitação custa ${VISITA.price} por pessoa.`,
+    a: `O café colonial custa ${CAFE.prices[0].price} por pessoa, no sábado e no domingo, e o almoço de domingo ${ALMOCO.prices[0].price}. O rodízio de pizzas custa ${PIZZA.prices[0].price} na quinta e na sexta e ${PIZZA.prices[1].price} no sábado. ${KIDS}. A visitação custa ${VISITA.price} por pessoa.`,
   },
   {
     q: 'Quais são os horários?',
-    a: 'Rodízio de pizzas de quinta a sábado, das 18h30 à meia-noite. Aos domingos: café colonial das 8h às 10h30, almoço das 11h às 14h30 e café colonial de novo das 15h às 18h.',
+    a: 'Rodízio de pizzas de quinta a sábado, das 18h30 à meia-noite. Aos sábados, café colonial das 14h às 17h. Aos domingos: café colonial das 8h às 10h30, almoço das 11h às 14h30 e café colonial de novo das 15h às 18h.',
   },
   {
     q: 'O que é servido no café colonial?',

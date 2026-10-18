@@ -2,9 +2,16 @@ import { Arrow } from './Logo'
 import Roll from './Roll'
 import Price from './Price'
 import { scrollToId } from '../lib/motion'
-import { CAFE, KIDS, PIZZA, SUNDAY } from '../data/site'
+import { CAFE, KIDS, PIZZA, SATURDAY, SUNDAY } from '../data/site'
 
-// Topo em clima de inauguração: quem entra já vê os três momentos do domingo,
+// o café da tarde acontece no sábado e no domingo, com horários diferentes
+const ROWS = SUNDAY.map((m) =>
+  m.short === SATURDAY.short
+    ? { ...m, when: [`${SATURDAY.day}, ${SATURDAY.from} às ${SATURDAY.to}`, `${m.day}, ${m.from} às ${m.to}`] }
+    : { ...m, when: [`${m.day}, ${m.from} às ${m.to}`] },
+)
+
+// Topo em clima de inauguração: quem entra já vê os momentos do fim de semana,
 // como funcionam e quanto custam. O título fica como está (é o LCP).
 export default function Hero({ onReserve }) {
   return (
@@ -19,22 +26,24 @@ export default function Hero({ onReserve }) {
                 <span className="block h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                 Inauguração do novo espaço
               </span>
-              <span className="text-pedra max-md:text-cal/75">Aos domingos</span>
+              <span className="text-pedra max-md:text-cal/75">Sábado e domingo</span>
             </p>
             <h1 data-hero-title className="mt-5 text-[clamp(38px,4.4vw,70px)]">
               Onde o sabor encontra uma vista inesquecível
             </h1>
             <p data-hero-fade className="mt-6 max-w-[500px] text-[18px] text-pedra max-md:hidden">
-              O café colonial ganhou casa nova. Aos domingos, o dia tem três momentos, cada um com o seu valor:
+              O café colonial ganhou casa nova. No domingo, o dia tem três momentos, e o café da tarde agora também é servido no sábado:
             </p>
 
-            {/* os três momentos do domingo, com horário e valor */}
-            <ol data-hero-fade className="mt-7 border-y border-linha max-md:border-cal/25" aria-label="Domingo na cantina">
-              {SUNDAY.map((m) => (
+            {/* os momentos do fim de semana, com dia, horário e valor */}
+            <ol data-hero-fade className="mt-7 border-y border-linha max-md:border-cal/25" aria-label="Fim de semana na cantina">
+              {ROWS.map((m) => (
                 <li key={m.name} className="flex items-center justify-between gap-4 border-t border-linha py-3 first:border-t-0 max-md:border-cal/20 md:py-3.5">
                   <span>
                     <span className="serif block text-[22px] leading-tight md:text-[24px]">{m.short}</span>
-                    <span className="mt-0.5 block text-[14px] tabular-nums text-pedra max-md:text-cal/75">{m.from} às {m.to}</span>
+                    {m.when.map((w) => (
+                      <span key={w} className="mt-0.5 block text-[14px] tabular-nums text-pedra max-md:text-cal/75">{w}</span>
+                    ))}
                   </span>
                   <Price value={m.exp.prices[0].price} className="text-[30px] leading-none md:text-[34px]" />
                 </li>
@@ -46,7 +55,7 @@ export default function Hero({ onReserve }) {
 
             <div data-hero-fade className="mt-7 flex flex-wrap gap-2.5">
               <button type="button" className="btn btn-ouro" onClick={() => onReserve(CAFE.id)}>
-                <Roll>Reservar o domingo</Roll>
+                <Roll>Reservar o café ou almoço</Roll>
                 <span className="sq" aria-hidden="true"><Arrow /></span>
               </button>
               <a href="#inauguracao" className="btn btn-linha max-md:border-cal/70 max-md:text-cal" onClick={(e) => { e.preventDefault(); scrollToId('inauguracao') }}>

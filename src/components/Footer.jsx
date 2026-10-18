@@ -1,4 +1,4 @@
-import { ADDRESS, PHONE_LABEL, PIZZA, SOCIAL, SUNDAY, WHATSAPP } from '../data/site'
+import { ADDRESS, PHONE_LABEL, PIZZA, SATURDAY, SOCIAL, SUNDAY, WHATSAPP } from '../data/site'
 import { Arrow, LogoMark } from './Logo'
 import Roll from './Roll'
 import { scrollToId } from '../lib/motion'
@@ -40,6 +40,8 @@ export default function Footer({ onReserve }) {
               <p>{PIZZA.name}<br />{PIZZA.days}, {PIZZA.hours}</p>
               <p className="mt-3">Domingos</p>
               {SUNDAY.map((m) => <p key={m.name}>{m.exp.name}, {m.from} às {m.to}</p>)}
+              <p className="mt-3">Sábados</p>
+              <p>{SATURDAY.exp.name}, {SATURDAY.from} às {SATURDAY.to}</p>
             </div>
             <div className="md:col-span-3">
               <p className={h}>Contato</p>

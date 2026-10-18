@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, useGSAP, getLenis, prefersReduced } from '../lib/motion'
-import { EXPERIENCES, KIDS, PIZZA, WHATSAPP, priceOn } from '../data/site'
+import { EXPERIENCES, KIDS, PIZZA, WHATSAPP, priceOn, slotsFor } from '../data/site'
 import { Arrow } from './Logo'
 
 const BOOKABLE = EXPERIENCES
@@ -25,10 +25,19 @@ const nextDateFor = (exp) => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 // valor por pessoa: o do dia escolhido ou, sem data válida, a lista de valores
+const samePrice = (exp) => exp.prices.every((p) => p.price === exp.prices[0].price)
 const priceText = (exp, date) => {
   const p = date && priceOn(exp, parseISO(date).getDay())
   if (p) return `${p.price} por pessoa ${p.on}`
+  if (samePrice(exp)) return `${exp.prices[0].price} por pessoa`
   return `${exp.prices.map((x) => `${x.price} ${x.on}`).join(' e ')}, por pessoa`
+}
+// horários do dia escolhido (o café de sábado tem horários próprios)
+const daySlots = (exp, date) => slotsFor(exp, date ? parseISO(date).getDay() : -1)
+const pickTime = (exp, date, current) => {
+  const list = daySlots(exp, date)
+  if (list.includes(current)) return current
+  return list.includes(exp.slot) ? exp.slot : list[0]
 }
 const prettyDate = (s) => {
   const d = parseISO(s)
@@ -57,7 +66,7 @@ export default function ReserveDrawer({ state, onClose }) {
 
   const initialExp = PIZZA
   const [form, setForm] = useState({
-    exp: initialExp.id, date: nextDateFor(initialExp), time: initialExp.slot,
+    exp: initialExp.id, date: nextDateFor(initialExp), time: pickTime(initialExp, nextDateFor(initialExp), initialExp.slot),
     adults: 2, kids69: 0, kids05: 0, name: '', notes: '',
   })
   const [errors, setErrors] = useState({})
@@ -65,12 +74,18 @@ export default function ReserveDrawer({ state, onClose }) {
   const exp = BOOKABLE.find((e) => e.id === form.exp)
 
   const set = (k, v) => {
-    setForm((f) => ({ ...f, [k]: v }))
+    setForm((f) => {
+      const next = { ...f, [k]: v }
+      // trocou o dia: o horário precisa existir nesse dia
+      if (k === 'date') next.time = pickTime(BOOKABLE.find((e) => e.id === f.exp), v, f.time)
+      return next
+    })
     setErrors((e) => ({ ...e, [k]: undefined }))
   }
   const chooseExp = (id) => {
     const e = BOOKABLE.find((x) => x.id === id)
-    setForm((f) => ({ ...f, exp: id, date: nextDateFor(e), time: e.slot }))
+    const date = nextDateFor(e)
+    setForm((f) => ({ ...f, exp: id, date, time: pickTime(e, date, e.slot) }))
     setErrors({})
   }
 
@@ -191,7 +206,7 @@ export default function ReserveDrawer({ state, onClose }) {
                     <span className="serif block text-[21px] leading-tight">{e.name}</span>
                     <span className={`mt-1 block text-[13px] ${form.exp === e.id ? 'text-cal/70' : 'text-pedra'}`}>{e.days} · {e.hours}</span>
                     <span className="mt-1 block text-[13px] tabular-nums">
-                      {e.prices.length > 1 ? e.prices.map((p) => `${p.label} ${p.price}`).join(' · ') : e.prices[0].price}
+                      {samePrice(e) ? e.prices[0].price : e.prices.map((p) => `${p.label} ${p.price}`).join(' · ')}
                     </span>
                   </label>
                 ))}
@@ -206,7 +221,7 @@ export default function ReserveDrawer({ state, onClose }) {
               <div className="field">
                 <label htmlFor="r-time">Horário</label>
                 <select id="r-time" value={form.time} onChange={(e) => set('time', e.target.value)}>
-                  {exp.slots.map((s) => <option key={s} value={s}>{s.replace(':', 'h')}</option>)}
+                  {daySlots(exp, form.date).map((s) => <option key={s} value={s}>{s.replace(':', 'h')}</option>)}
                 </select>
               </div>
               <p id="r-date-hint" className={`col-span-2 -mt-1 text-[13px] ${errors.date ? 'text-[#A8321F]' : 'text-pedra'}`}>

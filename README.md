@@ -10,7 +10,7 @@ npm run build    # gera dist/ para publicar (Vercel, Netlify, Hostinger…)
 
 ## Onde mexer
 
-- `src/data/site.js` — horários e preços de cada experiência (`CAFE`, `ALMOCO`, `PIZZA`, `VISITA`), o programa do domingo (`SUNDAY`), o que vai à mesa (`MESA`), WhatsApp, endereço, redes e perguntas frequentes. Se mudar horário de reserva, mude também `server/src/experiences/experiences.data.ts`.
+- `src/data/site.js` — horários e preços de cada experiência (`CAFE`, `ALMOCO`, `PIZZA`, `VISITA`), o programa do domingo (`SUNDAY`), o café de sábado à tarde (`SATURDAY`, com horários de reserva próprios em `slotsByDay`), o que vai à mesa (`MESA`), WhatsApp, endereço, redes e perguntas frequentes. Se mudar horário de reserva, mude também `server/src/experiences/experiences.data.ts`.
 - `src/lib/animations.js` — todas as animações globais, ligadas por data-atributos (`data-split`, `data-split-chars`, `data-reveal`, `data-fade`, `data-img-reveal`, `data-parallax`, `data-footer-parallax`, `data-nav`). A lista do que cada um faz está no topo do arquivo.
 - `src/components/Price.jsx` — preço em estilo de cardápio ("R$" e centavos menores), usado no topo e nas experiências.
 - `src/components/Roll.jsx` — texto de botão que rola para cima no hover; use dentro de `.btn`.

@@ -8,6 +8,7 @@ import { addDays, isISODate, nowIn, weekdayOf } from '../common/dates.js';
 import type { Env } from '../config/env.js';
 import {
   findExperience,
+  slotsFor,
   type Experience,
 } from '../experiences/experiences.data.js';
 import type { CreateReservationDto } from './dto/create-reservation.dto.js';
@@ -77,7 +78,7 @@ export class ReservationsService {
     if (!exp.weekdays.includes(weekdayOf(dto.date))) {
       fail('date', `${exp.name} só acontece ${exp.days.toLowerCase()}`);
     }
-    if (!exp.slots.includes(dto.time))
+    if (!slotsFor(exp, weekdayOf(dto.date)).includes(dto.time))
       fail('time', 'Horário indisponível para esta experiência');
 
     const today = nowIn(this.config.get('TIMEZONE', { infer: true }), now);
